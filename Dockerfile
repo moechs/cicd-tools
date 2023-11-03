@@ -1,3 +1,5 @@
+FROM --platform=$TARGETPLATFORM gcr.io/kaniko-project/executor:v$KANIKO_VERSION AS builder
+
 ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG TZ=Asia/Shanghai
@@ -21,7 +23,6 @@ ENV HOME=/root \
     SKAFFOLD_CACHE_ARTIFACTS=false \
     SKAFFOLD_INSECURE_REGISTRY="registry:5000"
 
-FROM --platform=$TARGETPLATFORM gcr.io/kaniko-project/executor:v$KANIKO_VERSION AS builder
 FROM --platform=$TARGETPLATFORM alpine
 
 COPY --from=builder /kaniko /kaniko
