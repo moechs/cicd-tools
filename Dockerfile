@@ -28,7 +28,7 @@ FROM --platform=$TARGETPLATFORM alpine
 COPY --from=builder /kaniko /kaniko
 
 RUN mkdir /workspace && cd /tmp && apk add --no-cache ca-certificates tzdata bash curl wget gawk grep git tar xz jq && \
-    wget -O /usr/bin/kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/${TARGETOS}/${TARGETARCH}/kubectl" && chmod +x /usr/bin/kubectl && \
+    wget -O /usr/bin/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/${TARGETOS}/${TARGETARCH}/kubectl && chmod +x /usr/bin/kubectl && \
     wget -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_${TARGETOS}_${TARGETARCH}}.tar.gz|tar -xvz && mv kustomize /usr/bin/kustomize && chmod +x /usr/bin/kustomize && \ 
     wget -O - https://get.helm.sh/helm-v${HELM_VERSION}}-${TARGETOS}-${TARGETARCH}.tar.gz|tar -xvz && mv ${TARGETOS}-${TARGETARCH}/helm /usr/bin/helm && chmod +x /usr/bin/helm && \
     wget -O /usr/bin/skaffold https://storage.googleapis.com/skaffold/releases/v${SKAFFOLD_VERSION}/skaffold-${TARGETOS}-${TARGETARCH} && chmod +x /usr/bin/skaffold && \
