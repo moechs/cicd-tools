@@ -6,8 +6,8 @@ FROM --platform=$TARGETPLATFORM alpine
 
 COPY --from=builder /kaniko /kaniko
 
-ARG TARGETOS=linux
-ARG TARGETARCH=amd64
+ARG TARGETOS
+ARG TARGETARCH
 ARG TZ=Asia/Shanghai
 ARG KUBECTL_VERSION=1.28.3
 ARG KUSTOMIZE_VERSION=5.2.1
@@ -26,7 +26,8 @@ ENV HOME=/root \
     SSL_CERT_DIR=/kaniko/ssl/certs \
     SKAFFOLD_UPDATE_CHECK=false \
     SKAFFOLD_CACHE_ARTIFACTS=false \
-    SKAFFOLD_INSECURE_REGISTRY="registry:5000"
+    SKAFFOLD_INSECURE_REGISTRY="registry:5000" \
+    GIT_SSL_NO_VERIFY=true
 
 
 
