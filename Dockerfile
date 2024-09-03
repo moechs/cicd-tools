@@ -1,4 +1,4 @@
-ARG KANIKO_VERSION=1.18.0
+ARG KANIKO_VERSION=1.23.2
 
 FROM --platform=$TARGETPLATFORM gcr.io/kaniko-project/executor:v$KANIKO_VERSION AS builder
 
@@ -9,17 +9,14 @@ COPY --from=builder /kaniko /kaniko
 ARG TARGETOS
 ARG TARGETARCH
 ARG TZ=Asia/Shanghai
-ARG KUBECTL_VERSION=1.28.3
-ARG KUSTOMIZE_VERSION=5.2.1
-ARG HELM_VERSION=3.13.2
-ARG SKAFFOLD_VERSION=2.9.0
-ARG ARGOCD_VERSION=2.9.0
+ARG KUBECTL_VERSION=1.30.4
+ARG KUSTOMIZE_VERSION=5.4.3
+ARG HELM_VERSION=3.15.4
+ARG SKAFFOLD_VERSION=2.13.2
+ARG ARGOCD_VERSION=2.12.3
+ARG FLUX_VERSION=2.3.0
 
-USER root
-
-ENV HOME=/root \
-    USER=root \
-    TZ=${TZ} \
+ENV TZ=${TZ} \
     PATH=/kaniko:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin \
     DOCKER_CONFIG=/kaniko/.docker/ \
     DOCKER_CREDENTIAL_GCR_CONFIG=/kaniko/.config/gcloud/docker_credential_gcr_config.json \
@@ -37,6 +34,7 @@ RUN set -ex && mkdir /workspace && cd /tmp && apk add --no-cache ca-certificates
     wget -O - https://get.helm.sh/helm-v${HELM_VERSION}-${TARGETOS}-${TARGETARCH}.tar.gz|tar -xvz && mv ${TARGETOS}-${TARGETARCH}/helm /usr/bin/helm && chmod +x /usr/bin/helm && \
     wget -O /usr/bin/skaffold https://storage.googleapis.com/skaffold/releases/v${SKAFFOLD_VERSION}/skaffold-${TARGETOS}-${TARGETARCH} && chmod +x /usr/bin/skaffold && \
     wget -O /usr/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v${ARGOCD_VERSION}/argocd-${TARGETOS}-${TARGETARCH} && chmod +x /usr/bin/argocd && \
+    wget -O - https://github.com/fluxcd/flux2/releases/download/v${FLUX_VERSION}/flux_${FLUX_VERSION}_${TARGETOS}_${TARGETARCH}.tar.gz|tar -xvz && mv flux /usr/bin/flux && chmod +x /usr/bin/flux && \
     ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime && \
     rm -rf /tmp/*
 
