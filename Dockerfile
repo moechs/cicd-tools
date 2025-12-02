@@ -1,6 +1,6 @@
-ARG KANIKO_VERSION=1.23.2
+ARG KANIKO_VERSION=1.25.5
 
-FROM --platform=$TARGETPLATFORM gcr.io/kaniko-project/executor:v$KANIKO_VERSION AS builder
+FROM --platform=$TARGETPLATFORM ghcr.io/kaniko-build/dist/chainguard-dev-kaniko/executor:v$KANIKO_VERSION AS builder
 
 FROM --platform=$TARGETPLATFORM alpine
 
@@ -9,12 +9,12 @@ COPY --from=builder /kaniko /kaniko
 ARG TARGETOS
 ARG TARGETARCH
 ARG TZ=Asia/Shanghai
-ARG KUBECTL_VERSION=1.30.4
-ARG KUSTOMIZE_VERSION=5.4.3
-ARG HELM_VERSION=3.15.4
-ARG SKAFFOLD_VERSION=2.13.2
-ARG ARGOCD_VERSION=2.12.3
-ARG FLUX_VERSION=2.3.0
+ARG KUBECTL_VERSION=1.34.2
+ARG KUSTOMIZE_VERSION=5.8.0
+ARG HELM_VERSION=4.0.1
+ARG SKAFFOLD_VERSION=2.17.0
+ARG ARGOCD_VERSION=3.2.1
+ARG FLUX_VERSION=2.7.5
 
 ENV TZ=${TZ} \
     PATH=/kaniko:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin \
